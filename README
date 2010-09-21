@@ -1,3 +1,225 @@
+vim -O file1 file2  open file1 and file2 side by side    
+:e  set buffer for current window   you can optionally specify a new file or existing buffer number (#3 for e.g.). Note if you specify a directory a file browser is started. E.g. :e . will start the browser in the current directory (which can be changed with the :cd command).
+:sp new window above    ditto
+:vs new window to left  ditto
+:q  close current window     
+:qa close all windows   add trailing ! to force
+Ctrl+w {left,right,up,down} move to window   
+Ctrl+w Ctrl+w   toggle window focus  
+Ctrl+w =    autosize windows    to new terminal size for e.g.
+:ba new window for all buffers  ":vert ba" tiles windows vertically
+buffers
+:ls list buffers     
+gf  open file under cursor   
+:bd delete buffer   and any associated windows
+:w  save file   Note :up[date] only writes file if changes made, but it's more awkward to type
+:sav filename   save file as filename   Note :w filename doesn't switch to new file. Subsequent edits/saves happen to existing file
+undo/redo
+u   undo     
+Ctrl+r  redo     
+.   repeat   
+navigation
+gg  Goto start of file   
+G   Goto end of file     
+:54 Goto line 54     
+80| Goto column 80   
+Ctrl+g  Show file info  including your position in the file
+ga  Show character info g8 shows UTF8 encoding
+Ctrl+e  scroll up   Ctrl+x needed first for insert mode
+Ctrl+y  scroll down Ctrl+x needed first for insert mode
+zt  scroll current line to top of window     
+w   Goto next word  Note Ctrl+{right} in newer vims (which work also in insert mode)
+b   Goto previous word  Note Ctrl+{left} in newer vims
+[{  Goto previous { of current scope     
+%   Goto matching #if #else,{},(),[],/* */  must be one on line
+zi  toggle folds on/off  
+bookmarks
+m {a-z} mark position as {a-z}  E.g. m a
+' {a-z} move to position {a-z}  E.g. ' a
+' ' move to previous position    
+'0  open previous file  handy after starting vim
+selection/whitespace
+v   select visually use cursor keys, home, end etc.
+Shift+v line select CTRL+v = column select
+Delete  cut selection    
+"_x delete selection    without updating the clipboard or yank buffer.
+I remap x to this in my .vimrc
+y   copy selection   
+p   paste (after cursor)    P is paste before cursor
+"Ay append selected lines to register a use lowercase a to initialise register
+"ap paste contents of a  
+gq  reformat selection  justifies text and is useful with :set textwidth=70 (80 is default)
+=   reindent selection  very useful to fix indentation for c code
+>   indent section  useful with Shift+v%
+<   unindent section    remember . to repeat and u to undo
+:set list!  toggle visible whitespace   See also listchars in my .vimrc
+clipboard shortcuts
+dd  cut current line     
+yy  copy current line    
+D   cut to end of line   
+y$  copy to end of line  
+search/replace
+/regexp searches forwards for regexp    ? reverses direction
+n   repeat previous search  N reverses direction
+*   searches forward for word under cursor  # reverses direction
+:%s/1/2/gc  search for regexp 1 and
+replace with 2 in file  c = confirm change
+:s/1/2/g    search for regexp 1 and
+replace with 2 in (visual) selection     
+programming
+K   lookup word under cursor in man pages   2K means lookup in section 2
+:make   run make in current directory    
+Ctrl+]  jump to tag Ctrl+t to jump back (supports multiple levels)
+vim -t name Start editing where name is defined  
+Ctrl+{n,p}  scroll forward,back through
+autocompletions for
+word before cursor  uses words in current file (and included files) by default. You can change to a dictionary for e.g:
+set complete=k/usr/share/dicts/words
+Note only works in insert mode
+Ctrl+x Ctrl+o   scroll through
+language specific completions for
+text before cursor  "Intellisense" for vim (7 & later).
+:help compl-omni for more info.
+Useful for python, css, javascript, ctags, ...
+Note only works in insert mode
+external filters
+:%!filter   put whole file through filter    
+:!filter    put (visual) selection through filter    
+:,!command  replace current line with command output     
+map <f9> :w<CR>:!python %<CR>   run current file with external program
+
+
+
+
+
+        H   Move cursor to top of page
+        L   Move cursor to bottom of page
+        W
+        w
+        5w  Move cursor a word at a time
+        Move cursor ahead 5 words
+        B
+        b
+        5b  Move cursor back a word at a time
+        Move cursor back a word at a time
+        Move cursor back 5 words
+        e
+        5e  Move cursor to end of word
+        Move cursor ahead to the end of the 5th word
+        0 (zero)    Move cursor to beginning of line
+        $   Move cursor to end of line
+        )   Move cursor to beginning of next sentence
+        (   Move cursor to beginning of current sentence
+        G   Move cursor to end of file
+        %   Move cursor to the matching bracket.
+        Place cursor on {}[]() and type "%".
+        '.  Move cursor to previously modified line.
+        'a  Move cursor to line mark "a" generated by marking with keystroke "ma"
+        'A  Move cursor to line mark "a" (global between buffers) generated by marking with keystroke "mA"
+        ]'  Move cursor to next lower case mark.
+        ['  Move cursor to previous lower case mark.
+
+    Editing commands:
+
+        Keystrokes  Action
+        i   Insert at cursor
+        a   Append after cursor
+        A   Append at end of line
+        ESC     Terminate insert mode
+        u   Undo last change
+        U   Undo all changes to entire line
+        o   Open a new line
+        dd
+        3dd     Delete line
+        Delete 3 lines.
+        D   Delete contents of line after cursor
+        C   Delete contents of line after cursor and insert new text. Press esc key to end insertion.
+        dw
+        4dw     Delete word
+        Delete 4 words
+        cw  Change word
+        x   Delete character at cursor
+        r   Replace character
+        R   Overwrite characters from cursor onward
+        s   Substitute one character under cursor continue to insert
+        S   Substitute entire line and begin to insert at beginning of line
+        ~   Change case of individual character
+        ctrl-a
+        ctrl-x  Increment number under the cursor.
+        Decrement number under the cursor.
+        /search_string{CR}  Search for search_string
+        ?search_string{CR}  Search backwards (up in file) for search_string
+        /\<search_string\>{CR}  Search for search_word
+        Ex: /\<s\>
+        Search for variable "s" but ignore declaration "string" or words containing "s". This will find "string s;", "s = fn(x);", "x = fn(s);", etc
+        n   Find next occurrence of search_word
+        N   Find previous occurrence of search_word
+        .   repeat last command action.
+
+Terminate session:
+
+    * Use command: ZZ
+      Save changes and quit.
+    * Use command line: ":wq"
+      Save (write) changes and quit.
+    * Use command line: ":w"
+      Save (write) changes without quitting.
+    * Use command line: ":q!"
+      Ignore changes and quit. No changes from last write will be saved.
+    * Use command line: ":qa"
+      Quit all files opened.
+
+
+Tagging:
+
+This functionality allows one to jump between files to locate subroutines.
+
+        * ctags *.h *.c This creates a file names "tags".
+
+Edit the file using vi.
+
+        * Unix command line: vi -t   subroutine_name This will find the correct file to edit.
+          OR
+        * Vi command line: :tag subroutine_name This will jump from your current file to the file containing the subroutine. (short form :ta subroutine_name )
+          OR
+        * By cursor position: ctrl-] Place cursor on the first character of the subroutine name and press ctrl-] This will jump to the file containing the subroutine.
+
+
+:tag start-of-tag-name_TAB      Vim supports tag name completion. Start the typing the tag name and then type the TAB key and name completion will complete the tag name for you.
+:tag /search-string     Jump to a tag name found by a search.
+ctrl-]  The vim editor will jump into the tag to follow it to a new position in the file or to a new file.
+ctrl-t  The vim editor will allow the user to jump back a level.
+(or :pop)
+:tselect <function-name>    When multiple entries exist in the tags file, such as a function declaration in a header file and a function definition (the function itself), the operator can choose by issuing this command. The user will be presented with all the references to the function and the user will be prompted to enter the number associated with the appropriate one.
+:tnext  When multiple answers are available you can go to the next answer.
+:set ignorecase
+(or :set ic)    The ignore case directive affects tagging.
+:tags   Show tag stack (history)
+:4pop   Jump to a particular position in the tag stack (history).
+(jump to the 4th from bottom of tag stack (history).
+The command ":pop" will move by default "1" backwards in the stack (history).)
+or
+:4tag
+(jump to the 4th from top of tag stack)
+:tnext  Jump to next matching tag.
+(Also short form :tn and jump two :2tnext)
+:tprevious  Jump to previous matching tag.
+(Also short form :tp and jump two :2tp)
+:tfirst     Jump to first matching tag.
+(Also short form :tf, :trewind, :tr)
+:tlast  Jump to last matching tag.
+(Also short form :tl)
+
+:set tags=./tags,./subdir/tags
+
+
+
+
+
+
+    
+
+
 Resources
 http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 
