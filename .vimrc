@@ -427,3 +427,7 @@ map ,b :FufBuffer<CR>
 "let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
 
+:if $VIM_CRONTAB == “true”
+:set nobackup
+:set nowritebackup
+:endif
